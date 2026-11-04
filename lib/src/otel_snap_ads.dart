@@ -1,15 +1,16 @@
-// Licensed under the Dartastic Pro Software License Agreement.
+// Licensed under the Apache License, Version 2.0
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_snap_ads_suppression.dart';
 
 const _tracerName = 'dartastic_otel_libs_snap_ads';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class SnapAdsResult {
+  /// Creates a result.
   const SnapAdsResult({
     this.organizationId,
     this.adAccountId,
@@ -84,8 +85,13 @@ class SnapAdsResult {
   final int? statusCode;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class SnapAdsCallResult<T> {
+  /// Creates a call result.
   const SnapAdsCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final SnapAdsResult? result;
 }
@@ -111,62 +117,62 @@ Future<T> tracedSnapAds<T>({
   final span = _tracer().startSpan(
     'snap_ads $operation',
     kind: SpanKind.client,
-    attributes: OTel.attributesFromMap(m),
+    attributes: OTelAPI.attributesFromMap(m),
   );
   try {
     final r = await invoke();
     if (r.result != null) {
       final extras = <Attribute<Object>>[];
       if (r.result!.organizationId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.organization.id',
           r.result!.organizationId!,
         ));
       }
       if (r.result!.adAccountId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.ad_account.id',
           r.result!.adAccountId!,
         ));
       }
       if (r.result!.campaignId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.campaign.id',
           r.result!.campaignId!,
         ));
       }
       if (r.result!.adSquadId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.ad_squad.id',
           r.result!.adSquadId!,
         ));
       }
       if (r.result!.adId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.ad.id',
           r.result!.adId!,
         ));
       }
       if (r.result!.objective != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.objective',
           r.result!.objective!,
         ));
       }
       if (r.result!.adType != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.ad.type',
           r.result!.adType!,
         ));
       }
       if (r.result!.bidStrategy != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.bid.strategy',
           r.result!.bidStrategy!,
         ));
       }
       if (r.result!.deliveryStatus != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.delivery.status',
           r.result!.deliveryStatus!,
         ));
@@ -175,67 +181,67 @@ Future<T> tracedSnapAds<T>({
         }
       }
       if (r.result!.pixelId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.pixel.id',
           r.result!.pixelId!,
         ));
       }
       if (r.result!.snapAttachmentType != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.attachment.type',
           r.result!.snapAttachmentType!,
         ));
       }
       if (r.result!.spendMicros != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.spend.micros',
           r.result!.spendMicros!,
         ));
       }
       if (r.result!.currencyCode != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'snap_ads.currency.code',
           r.result!.currencyCode!,
         ));
       }
       if (r.result!.impressions != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.impressions',
           r.result!.impressions!,
         ));
       }
       if (r.result!.swipes != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.swipes',
           r.result!.swipes!,
         ));
       }
       if (r.result!.shares != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.shares',
           r.result!.shares!,
         ));
       }
       if (r.result!.screenshots != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.screenshots',
           r.result!.screenshots!,
         ));
       }
       if (r.result!.videoViews != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.video_views',
           r.result!.videoViews!,
         ));
       }
       if (r.result!.conversionPurchases != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'snap_ads.conversion.purchases',
           r.result!.conversionPurchases!,
         ));
       }
       if (r.result!.statusCode != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'http.response.status_code',
           r.result!.statusCode!,
         ));
@@ -246,13 +252,13 @@ Future<T> tracedSnapAds<T>({
           );
         }
       }
-      if (extras.isNotEmpty) span.addAttributes(OTel.attributes(extras));
+      if (extras.isNotEmpty) span.addAttributes(OTelAPI.attributes(extras));
     }
     return r.value;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
-        ErrorResource.errorType.key,
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));
